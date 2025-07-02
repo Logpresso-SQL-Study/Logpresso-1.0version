@@ -21,3 +21,5 @@ table wc
         avg(resp_bytes_clf) as avg_bytes,
         max(resp_bytes_clf) as max_bytes
   by remote_host
+
+  ------------------------------------------------------------------
