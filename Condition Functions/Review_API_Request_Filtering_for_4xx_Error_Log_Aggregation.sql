@@ -22,4 +22,16 @@ table wc
         max(resp_bytes_clf) as max_bytes
   by remote_host
 
-  ------------------------------------------------------------------
+------------------------------------------------------------------
+
+# 특정 API(GET /images/comp_bg2_hm.gif)에 대해
+# 응답 코드 대역(100~500번대)을 그룹화하여
+# remote_host별 요청 수 및 응답 바이트 통계 집계
+table wc
+| search request == "GET /images/comp_bg2_hm.gif HTTP/1.0"
+| eval status_group = string(floor(status / 100) * 100)
+| stats count as request_count,
+        sum(resp_bytes_clf) as total_bytes,
+        avg(resp_bytes_clf) as avg_bytes,
+        max(resp_bytes_clf) as max_bytes
+  by status_group, remote_host
